@@ -1,5 +1,10 @@
 local spawned = false
 local gerantped
+local chair
+local chairX, chairY, chairZ = -190.0, -1586.0, 34.9
+local chairHeading = 75.0
+local pnjModels = {"a_m_y_business_01", "a_m_y_business_02", "a_m_y_business_03"}
+local pnjList = {}
 
 Citizen.CreateThread(function()
     local pedModel = "a_m_y_beach_03"
@@ -46,7 +51,33 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
         if spawned and DoesEntityExist(gerantped) then
             local coords = GetEntityCoords(gerantped)
-            DrawText3D(coords.x - 0.45, coords.y, coords.z + 1.0, "Gérant du Four")
+            local playerPed = PlayerPedId()
+            local playerCoords = GetEntityCoords(playerPed)
+            local distance = Vdist(playerCoords.x, playerCoords.y, playerCoords.z, coords.x, coords.y, coords.z)
+
+            if distance < 1.5 then
+                DrawText3D(coords.x - 0.45, coords.y, coords.z + 1, "[E] Interagir")
+
+                if IsControlJustReleased(0, 38) then
+
+                    TriggerServerEvent('gerantweed', 500)
+
+                    local chairX, chairY, chairZ = -197.947250, -1605.731812, 34.402222
+                    local chairModel = "hei_prop_hei_skid_chair"
+
+                    RequestModel(chairModel)
+                    while not HasModelLoaded(chairModel) do
+                        Citizen.Wait(1)
+                    end
+
+                    local chair = CreateObject(GetHashKey(chairModel), chairX, chairY, chairZ, true, true, true)
+                    SetEntityHeading(chair, chairHeading)
+                    FreezeEntityPosition(chair, true)
+                    PlaceObjectOnGroundProperly(chair)
+                    ShowNotification("Une chaise a été placée.")
+                    
+                end
+            end
         end
     end
 end)
@@ -70,4 +101,10 @@ function DrawText3D(x, y, z, text)
         local factor = (string.len(text)) / 370
         -- DrawRect(_x, _y + 0.0125 * scale, 0.005 + factor, 0.03 * scale, 0, 0, 0, 100)
     end
+end
+
+function ShowNotification(text)
+    SetNotificationTextEntry("STRING")
+    AddTextComponentString(text)
+    DrawNotification(false, true)
 end
