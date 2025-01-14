@@ -46,7 +46,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
         if spawned and DoesEntityExist(gerantped) then
             local coords = GetEntityCoords(gerantped)
-            DrawText3D(coords.x - 0.45, coords.y, coords.z + 1.0, "Gérant du Four")  -- Affiche le texte au-dessus du PNJ
+            DrawText3D(coords.x - 0.45, coords.y, coords.z + 1.0, "Gérant du Four")
         end
     end
 end)
