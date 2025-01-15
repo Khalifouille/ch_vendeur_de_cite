@@ -56,7 +56,12 @@ function spawnPNJ()
         local pnj = CreatePed(4, GetHashKey(model), chairX + 25, chairY, chairZ, chairHeading, true, true)
         table.insert(pnjList, pnj)
 
-        TaskGoStraightToCoord(pnj, chairX, chairY, chairZ, 1.0, -1, chairHeading, 0)
+        local direction = GetEntityForwardVector(chair)
+        local stopX = chairX - direction.x
+        local stopY = chairY - direction.y
+        local stopZ = chairZ
+
+        TaskGoStraightToCoord(pnj, stopX, stopY, stopZ, 2.0, -1, chairHeading, 0)
     end
 end
 
@@ -96,7 +101,7 @@ Citizen.CreateThread(function()
                 end
             end
         end
-        
+
         for _, pnj in ipairs(pnjList) do
             if DoesEntityExist(pnj) then
                 DrawTextAbovePNJ(pnj, "Client fidéle")
