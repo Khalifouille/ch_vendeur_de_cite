@@ -4,7 +4,7 @@ local chair
 local chairX, chairY, chairZ = -197.775818, -1605.547241, 34.385376
 local chairHeading = 75.0
 local pnjModels = {"a_m_y_business_01", "a_m_y_business_02", "a_m_y_business_03"}
-local pnjList = {}
+local pnjList = {test}
 
 Citizen.CreateThread(function()
     local pedModel = "a_m_y_beach_03"
