@@ -56,7 +56,6 @@ function spawnPNJ()
         local pnj = CreatePed(4, GetHashKey(model), chairX + 25, chairY, chairZ, chairHeading, true, true)
         table.insert(pnjList, pnj)
 
-        -- Faire avancer le PNJ vers la chaise
         TaskGoStraightToCoord(pnj, chairX, chairY, chairZ, 1.0, -1, chairHeading, 0)
     end
 end
@@ -88,8 +87,6 @@ Citizen.CreateThread(function()
                     FreezeEntityPosition(chair, true)
                     PlaceObjectOnGroundProperly(chair)
                     ShowNotification("Une chaise a été placée.")
-
-                    -- Appeler la fonction pour faire apparaître les PNJ
                     spawnPNJ()
                 end
             end
