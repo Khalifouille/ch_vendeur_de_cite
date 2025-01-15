@@ -1,7 +1,7 @@
 local spawned = false
 local gerantped
 local chair
-local chairX, chairY, chairZ = -190.0, -1586.0, 34.9
+local chairX, chairY, chairZ = -197.775818, -1605.547241, 34.385376
 local chairHeading = 75.0
 local pnjModels = {"a_m_y_business_01", "a_m_y_business_02", "a_m_y_business_03"}
 local pnjList = {}
@@ -46,6 +46,21 @@ Citizen.CreateThread(function()
     end
 end)
 
+function spawnPNJ()
+    for _, model in ipairs(pnjModels) do
+        RequestModel(GetHashKey(model))
+        while not HasModelLoaded(GetHashKey(model)) do
+            Citizen.Wait(1)
+        end
+
+        local pnj = CreatePed(4, GetHashKey(model), chairX + 25, chairY, chairZ, chairHeading, true, true)
+        table.insert(pnjList, pnj)
+
+        -- Faire avancer le PNJ vers la chaise
+        TaskGoStraightToCoord(pnj, chairX, chairY, chairZ, 1.0, -1, chairHeading, 0)
+    end
+end
+
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
@@ -59,10 +74,8 @@ Citizen.CreateThread(function()
                 DrawText3D(coords.x - 0.45, coords.y, coords.z + 1, "[E] Interagir")
 
                 if IsControlJustReleased(0, 38) then
-
                     TriggerServerEvent('gerantweed', 500)
 
-                    local chairX, chairY, chairZ = -197.947250, -1605.731812, 34.402222
                     local chairModel = "hei_prop_hei_skid_chair"
 
                     RequestModel(chairModel)
@@ -70,12 +83,14 @@ Citizen.CreateThread(function()
                         Citizen.Wait(1)
                     end
 
-                    local chair = CreateObject(GetHashKey(chairModel), chairX, chairY, chairZ, true, true, true)
+                    chair = CreateObject(GetHashKey(chairModel), chairX, chairY, chairZ, true, true, true)
                     SetEntityHeading(chair, chairHeading)
                     FreezeEntityPosition(chair, true)
                     PlaceObjectOnGroundProperly(chair)
                     ShowNotification("Une chaise a été placée.")
-                    
+
+                    -- Appeler la fonction pour faire apparaître les PNJ
+                    spawnPNJ()
                 end
             end
         end
