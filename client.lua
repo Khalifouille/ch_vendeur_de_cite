@@ -60,6 +60,11 @@ function spawnPNJ()
     end
 end
 
+function DrawTextAbovePNJ(pnj, text)
+    local coords = GetEntityCoords(pnj)
+    DrawText3D(coords.x, coords.y + 0.2, coords.z + 1.0, text)
+end
+
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
@@ -89,6 +94,12 @@ Citizen.CreateThread(function()
                     ShowNotification("Une chaise a été placée.")
                     spawnPNJ()
                 end
+            end
+        end
+        
+        for _, pnj in ipairs(pnjList) do
+            if DoesEntityExist(pnj) then
+                DrawTextAbovePNJ(pnj, "Client fidéle")
             end
         end
     end
