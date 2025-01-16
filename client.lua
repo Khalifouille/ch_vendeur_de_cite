@@ -79,9 +79,19 @@ local function SellWeedToPNJ(playerCoords)
                             TriggerServerEvent('ox_inventory:removeItem', 'marijuana', quantity)
                             TriggerServerEvent('vendweed', totalPrice)
                             ShowNotification("Vous avez vendu " .. quantity .. " pochons de weed pour $" .. totalPrice .. " (" .. pricePerUnit .. "$ chacun).")
-                            TaskStartScenarioAtPosition(pnj, "WORLD_HUMAN_WAVING", pnjCoords, 0, true)
-                            TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_WAVING", 0, true)
 
+                            local playerPed = PlayerPedId()
+                            local animDict = "mp_common"
+                            local animName = "givetake1_a"
+
+                            RequestAnimDict(animDict)
+                            while not HasAnimDictLoaded(animDict) do
+                                Citizen.Wait(100)
+                            end
+
+                            TaskPlayAnim(playerPed, animDict, animName, 8.0, -8.0, 3000, 49, 0, false, false, false, false, false, false)
+                            TaskPlayAnim(pnj, animDict, animName, 8.0, -8.0, 3000, 49, 0, false, false, false, false, false, false)
+                            Citizen.Wait(2500)
                             DeleteEntity(pnj)
                         else
                             ShowNotification("Vous n'avez pas de marijuana à vendre.")
