@@ -1,3 +1,5 @@
+ESX = exports['es_extended']:getSharedObject()
+
 local spawned = false
 local gerantped, chair
 local chairX, chairY, chairZ = -197.775818, -1605.547241, 34.385376
@@ -67,17 +69,23 @@ local function SellWeedToPNJ(playerCoords)
                 DrawText3D(pnjCoords.x, pnjCoords.y + 0.2, pnjCoords.z + 1.0, "[E] Vendre de la weed")
 
                 if IsControlJustReleased(0, 38) then
-                    local quantity = math.random(1, 10)
-                    local pricePerUnit = math.random(40, 70)
-                    local totalPrice = quantity * pricePerUnit
+                    ESX.TriggerServerCallback('ox_inventory:getItemAmount', function(amount)
+                        if amount > 0 then
+                            local quantity = math.random(1, math.min(10, amount))
+                            local pricePerUnit = math.random(40, 70)
+                            local totalPrice = quantity * pricePerUnit
 
-                    TriggerServerEvent('ox_inventory:removeItem', 'marijuana', quantity)
-                    TriggerServerEvent('vendweed', totalPrice)
-                    ShowNotification("Vous avez vendu " .. quantity .. " pochons de weed pour $" .. totalPrice .. " (" .. pricePerUnit .. "$ chacun).")
-                    TaskStartScenarioAtPosition(pnj, "WORLD_HUMAN_WAVING", pnjCoords, 0, true)
-                    TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_WAVING", 0, true)
+                            TriggerServerEvent('ox_inventory:removeItem', 'marijuana', quantity)
+                            TriggerServerEvent('vendweed', totalPrice)
+                            ShowNotification("Vous avez vendu " .. quantity .. " pochons de weed pour $" .. totalPrice .. " (" .. pricePerUnit .. "$ chacun).")
+                            TaskStartScenarioAtPosition(pnj, "WORLD_HUMAN_WAVING", pnjCoords, 0, true)
+                            TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_WAVING", 0, true)
 
-                    DeleteEntity(pnj)
+                            DeleteEntity(pnj)
+                        else
+                            ShowNotification("Vous n'avez pas de marijuana à vendre.")
+                        end
+                    end, 'marijuana')
                 end
             end
         end

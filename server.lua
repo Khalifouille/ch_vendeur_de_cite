@@ -12,3 +12,13 @@ RegisterNetEvent('vendweed', function(amount)
         xPlayer.addMoney(amount)
     end
 end)
+
+ESX.RegisterServerCallback('ox_inventory:getItemAmount', function(source, cb, itemName)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    if xPlayer then
+        local itemCount = xPlayer.getInventoryItem(itemName).count
+        cb(itemCount)
+    else
+        cb(0)
+    end
+end)
