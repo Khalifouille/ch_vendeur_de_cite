@@ -39,6 +39,7 @@ Citizen.CreateThread(function()
         SetModelAsNoLongerNeeded(GetHashKey(pedModel))
     end
 end)
+
 local function spawnPNJ()
     for _, model in ipairs(pnjModels) do
         LoadModel(model)
@@ -49,6 +50,7 @@ local function spawnPNJ()
         TaskGoStraightToCoord(pnj, chairX - direction.x, chairY - direction.y, chairZ, 2.0, -1, chairHeading, 0)
     end
 end
+
 local function DrawTextAbovePNJ(pnj, text)
     local coords = GetEntityCoords(pnj)
     DrawText3D(coords.x, coords.y + 0.2, coords.z + 1.0, text)
@@ -62,12 +64,16 @@ local function SellWeedToPNJ(playerCoords)
             local distanceToPlayer = #(pnjCoords - playerCoords)
 
             if distanceToPNJ < 2.0 and distanceToPlayer < 2.0 then
-                DrawText3D(pnjCoords.x, pnjCoords.y, pnjCoords.z + 1.0, "[E] Vendre de la weed ($50)")
+                DrawText3D(pnjCoords.x, pnjCoords.y, pnjCoords.z + 1.0, "[E] Vendre de la weed")
 
                 if IsControlJustReleased(0, 38) then
-                    TriggerServerEvent('ox_inventory:removeItem', 'marijuana', 1)
-                    TriggerServerEvent('ox_inventory:addItem', 'money', 50)
-                    ShowNotification("Vous avez vendu de la weed pour $50.")
+                    local quantity = math.random(1, 10)
+                    local pricePerUnit = math.random(40, 70)
+                    local totalPrice = quantity * pricePerUnit
+
+                    TriggerServerEvent('ox_inventory:removeItem', 'weed', quantity)
+                    TriggerServerEvent('ox_inventory:addItem', 'money', totalPrice)
+                    ShowNotification("Vous avez vendu " .. quantity .. " pochons de weed pour $" .. totalPrice .. " (" .. pricePerUnit .. "$ chacun).")
 
                     DeleteEntity(pnj)
                 end
