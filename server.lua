@@ -19,7 +19,6 @@ RegisterNetEvent('vendweed', function(amount)
     end
 end)
 
-
 ESX.RegisterServerCallback('ox_inventory:getItemAmount', function(source, cb, itemName)
     local xPlayer = ESX.GetPlayerFromId(source)
     if xPlayer then
