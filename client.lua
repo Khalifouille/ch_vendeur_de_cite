@@ -47,7 +47,7 @@ local function spawnPNJ()
     table.insert(pnjList, pnj)
 
     local direction = GetEntityForwardVector(chair)
-    TaskGoStraightToCoord(pnj, chairX - direction.x, chairY - direction.y, chairZ, 2.0, -1, chairHeading, 0)
+    TaskGoStraightToCoord(pnj, chairX - direction.x, chairY - direction.y, chairZ, 3.0, -1, chairHeading, 0)
 end
 
 Citizen.CreateThread(function()
