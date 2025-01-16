@@ -71,8 +71,8 @@ local function SellWeedToPNJ(playerCoords)
                     local pricePerUnit = math.random(40, 70)
                     local totalPrice = quantity * pricePerUnit
 
-                    TriggerServerEvent('ox_inventory:removeItem', 'weed', quantity)
-                    TriggerServerEvent('ox_inventory:addItem', 'money', totalPrice)
+                    TriggerServerEvent('ox_inventory:removeItem', 'marijuana', quantity)
+                    TriggerServerEvent('vendweed', totalPrice)
                     ShowNotification("Vous avez vendu " .. quantity .. " pochons de weed pour $" .. totalPrice .. " (" .. pricePerUnit .. "$ chacun).")
 
                     DeleteEntity(pnj)
