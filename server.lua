@@ -6,7 +6,7 @@ AddEventHandler('gerantweed', function()
     exports.ox_inventory:AddItem(source, 'marijuana', 500)
 end)
 
-RegisterNetEvent('sellWeed:addMoney', function(amount)
+RegisterNetEvent('vendweed', function(amount)
     local xPlayer = ESX.GetPlayerFromId(source)
     if xPlayer then
         xPlayer.addMoney(amount)

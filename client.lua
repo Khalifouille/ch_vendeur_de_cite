@@ -50,12 +50,6 @@ local function spawnPNJ()
         TaskGoStraightToCoord(pnj, chairX - direction.x, chairY - direction.y, chairZ, 2.0, -1, chairHeading, 0)
     end
 end
-
-local function DrawTextAbovePNJ(pnj, text)
-    local coords = GetEntityCoords(pnj)
-    DrawText3D(coords.x, coords.y + 0.2, coords.z + 1.0, text)
-end
-
 local function SellWeedToPNJ(playerCoords)
     for _, pnj in ipairs(pnjList) do
         if DoesEntityExist(pnj) then
@@ -64,7 +58,7 @@ local function SellWeedToPNJ(playerCoords)
             local distanceToPlayer = #(pnjCoords - playerCoords)
 
             if distanceToPNJ < 2.0 and distanceToPlayer < 2.0 then
-                DrawText3D(pnjCoords.x, pnjCoords.y, pnjCoords.z + 1.0, "[E] Vendre de la weed")
+                DrawText3D(pnjCoords.x, pnjCoords.y + 0.2, pnjCoords.z + 1.0, "[E] Vendre de la weed")
 
                 if IsControlJustReleased(0, 38) then
                     local quantity = math.random(1, 10)
@@ -113,12 +107,6 @@ Citizen.CreateThread(function()
 
         local playerCoords = GetEntityCoords(PlayerPedId())
         SellWeedToPNJ(playerCoords)
-
-        for _, pnj in ipairs(pnjList) do
-            if DoesEntityExist(pnj) then
-                DrawTextAbovePNJ(pnj, "Client fidèle")
-            end
-        end
     end
 end)
 
