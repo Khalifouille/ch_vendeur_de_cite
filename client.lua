@@ -74,6 +74,8 @@ local function SellWeedToPNJ(playerCoords)
                     TriggerServerEvent('ox_inventory:removeItem', 'marijuana', quantity)
                     TriggerServerEvent('vendweed', totalPrice)
                     ShowNotification("Vous avez vendu " .. quantity .. " pochons de weed pour $" .. totalPrice .. " (" .. pricePerUnit .. "$ chacun).")
+                    TaskStartScenarioAtPosition(pnj, "WORLD_HUMAN_WAVING", pnjCoords, 0, true)
+                    TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_WAVING", 0, true)
 
                     DeleteEntity(pnj)
                 end
