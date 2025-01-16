@@ -6,6 +6,7 @@ local chairX, chairY, chairZ = -197.775818, -1605.547241, 34.385376
 local chairHeading = 75.0
 local pnjModels = {"a_m_y_business_01", "a_m_y_business_02", "a_m_y_business_03"}
 local pnjList = {}
+local tapinage = false
 
 local function LoadModel(model)
     RequestModel(GetHashKey(model))
@@ -102,27 +103,35 @@ Citizen.CreateThread(function()
             local distance = Vdist(playerCoords.x, playerCoords.y, playerCoords.z, coords.x, coords.y, coords.z)
 
             if distance < 1.5 then
-                DrawText3D(coords.x - 0.45, coords.y, coords.z + 1, "[E] Interagir")
+                if tapinage then
+                    DrawText3D(coords.x - 0.45, coords.y, coords.z + 1, "[E] Fini le tapinage")
+                else
+                    DrawText3D(coords.x - 0.45, coords.y, coords.z + 1, "[E] Interagir")
+                end
 
                 if IsControlJustReleased(0, 38) then
-                    TriggerServerEvent('gerantweed', 500)
-
-                    local chairModel = "hei_prop_hei_skid_chair"
-
-                    LoadModel(chairModel)
-
-                    chair = CreateObject(GetHashKey(chairModel), chairX, chairY, chairZ, true, true, true)
-                    SetEntityHeading(chair, chairHeading)
-                    FreezeEntityPosition(chair, true)
-                    PlaceObjectOnGroundProperly(chair)
-                    ShowNotification("Une chaise a été placée.")
-                    spawnPNJ()
+                    if tapinage then
+                        TriggerServerEvent('findutp') 
+                        ShowNotification("Allez donne la sacoche !")
+                        tapinage = false
+                    else
+                        TriggerServerEvent('gerantweed', 500)
+                        local chairModel = "hei_prop_hei_skid_chair"
+                        LoadModel(chairModel)
+                        chair = CreateObject(GetHashKey(chairModel), chairX, chairY, chairZ, true, true, true)
+                        SetEntityHeading(chair, chairHeading)
+                        FreezeEntityPosition(chair, true)
+                        PlaceObjectOnGroundProperly(chair)
+                        ShowNotification("Une chaise a été placée.")
+                        spawnPNJ()
+                        tapinage = true
+                    end
                 end
             end
-        end
 
-        local playerCoords = GetEntityCoords(PlayerPedId())
-        SellWeedToPNJ(playerCoords)
+            local playerCoords = GetEntityCoords(PlayerPedId())
+            SellWeedToPNJ(playerCoords)
+        end
     end
 end)
 

@@ -6,12 +6,19 @@ AddEventHandler('gerantweed', function()
     exports.ox_inventory:AddItem(source, 'marijuana', 100)
 end)
 
+RegisterNetEvent('findutp')
+AddEventHandler('findutp', function()
+    local source = source
+    exports.ox_inventory:RemoveItem(source, 'marijuana', 100)
+end)
+
 RegisterNetEvent('vendweed', function(amount)
     local xPlayer = ESX.GetPlayerFromId(source)
     if xPlayer then
         xPlayer.addMoney(amount)
     end
 end)
+
 
 ESX.RegisterServerCallback('ox_inventory:getItemAmount', function(source, cb, itemName)
     local xPlayer = ESX.GetPlayerFromId(source)
