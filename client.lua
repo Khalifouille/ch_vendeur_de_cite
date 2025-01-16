@@ -41,15 +41,21 @@ Citizen.CreateThread(function()
 end)
 
 local function spawnPNJ()
-    for _, model in ipairs(pnjModels) do
-        LoadModel(model)
-        local pnj = CreatePed(4, GetHashKey(model), chairX + 25, chairY, chairZ, chairHeading, true, true)
-        table.insert(pnjList, pnj)
+    local model = pnjModels[1]
+    LoadModel(model)
+    local pnj = CreatePed(4, GetHashKey(model), chairX + 25, chairY, chairZ, chairHeading, true, true)
+    table.insert(pnjList, pnj)
 
-        local direction = GetEntityForwardVector(chair)
-        TaskGoStraightToCoord(pnj, chairX - direction.x, chairY - direction.y, chairZ, 2.0, -1, chairHeading, 0)
-    end
+    local direction = GetEntityForwardVector(chair)
+    TaskGoStraightToCoord(pnj, chairX - direction.x, chairY - direction.y, chairZ, 2.0, -1, chairHeading, 0)
 end
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(300000)
+        spawnPNJ()
+    end
+end)
 local function SellWeedToPNJ(playerCoords)
     for _, pnj in ipairs(pnjList) do
         if DoesEntityExist(pnj) then
