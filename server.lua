@@ -9,7 +9,7 @@ end)
 RegisterNetEvent('findutp')
 AddEventHandler('findutp', function()
     local source = source
-    exports.ox_inventory:RemoveItem(source, 'marijuana', 100)
+    exports.ox_inventory:RemoveItem(source, 'marijuana', 1000)
 end)
 
 RegisterNetEvent('vendweed', function(amount)
