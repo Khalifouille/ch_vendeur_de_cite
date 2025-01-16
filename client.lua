@@ -81,8 +81,8 @@ local function SellWeedToPNJ(playerCoords)
                             ShowNotification("Vous avez vendu " .. quantity .. " pochons de weed pour $" .. totalPrice .. " (" .. pricePerUnit .. "$ chacun).")
 
                             local playerPed = PlayerPedId()
-                            local animDict = "mp_common"
-                            local animName = "givetake1_a"
+                            local animDict = "mp_ped_interaction"
+                            local animName = "hugs_guy_a"
 
                             RequestAnimDict(animDict)
                             while not HasAnimDictLoaded(animDict) do
@@ -91,7 +91,7 @@ local function SellWeedToPNJ(playerCoords)
 
                             TaskPlayAnim(playerPed, animDict, animName, 8.0, -8.0, 3000, 49, 0, false, false, false, false, false, false)
                             TaskPlayAnim(pnj, animDict, animName, 8.0, -8.0, 3000, 49, 0, false, false, false, false, false, false)
-                            Citizen.Wait(2500)
+                            Citizen.Wait(3000)
                             DeleteEntity(pnj)
                         else
                             ShowNotification("Vous n'avez pas de marijuana à vendre.")
