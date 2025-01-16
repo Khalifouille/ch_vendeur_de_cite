@@ -7,6 +7,8 @@ local chairHeading = 75.0
 local pnjModels = {"a_m_y_business_01", "a_m_y_business_02", "a_m_y_business_03"}
 local pnjList = {}
 local tapinage = false
+local animDict = "mp_ped_interaction"
+local animName = "hugs_guy_a"
 
 local function LoadModel(model)
     RequestModel(GetHashKey(model))
@@ -83,9 +85,6 @@ local function SellWeedToPNJ(playerCoords)
                             local playerPed = PlayerPedId()
                             local playerHeading = GetEntityHeading(playerPed)
                             SetEntityHeading(pnj, -playerHeading)
-
-                            local animDict = "mp_ped_interaction"
-                            local animName = "hugs_guy_a"
 
                             RequestAnimDict(animDict)
                             while not HasAnimDictLoaded(animDict) do
